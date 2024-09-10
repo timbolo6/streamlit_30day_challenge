@@ -2,6 +2,7 @@ import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
 import time
+st.header('I<3u2')
 
 # Interactive sliders
 iterations = st.sidebar.slider("Animation Frames", 50, 200, 100, 10)
