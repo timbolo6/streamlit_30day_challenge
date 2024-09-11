@@ -1,18 +1,35 @@
 import streamlit as st
+import requests
+import random
 
-st.title('st.session_state')
+st.title('🏀 Bored API app')
 
-def lbs_to_kg():
-  st.session_state.kg = st.session_state.lbs/2.2046
-def kg_to_lbs():
-  st.session_state.lbs = st.session_state.kg*2.2046
+st.sidebar.header('Input')
+selected_type = st.sidebar.selectbox('Select an activity type', ["education", "recreational", "social", "diy", "charity", "cooking", "relaxation", "music", "busywork"])
 
-st.header('Input')
-col1, spacer, col2 = st.columns([2,1,2])
+suggested_activity_url = f'https://bored-api.appbrewery.com/filter?type={selected_type}'
+json_data = requests.get(suggested_activity_url)
+suggested_activity = json_data.json()
+
+c1, c2 = st.columns(2)
+with c1:
+  with st.expander('About this app'):
+    st.write('Are you bored? The **Bored API app** provides suggestions on activities that you can do when you are bored. This app is powered by the Bored API.')
+with c2:
+  with st.expander('JSON data'):
+    st.write(suggested_activity)
+
+st.header('Suggested activity')
+
+index = random.randint(0, len(suggested_activity) - 1)
+activity = suggested_activity[index]
+
+st.info(activity['activity'])
+
+col1, col2, col3 = st.columns(3)
 with col1:
-  pounds = st.number_input("Pounds:", key = "lbs", on_change = lbs_to_kg)
+    st.metric(label='Number of Participants', value=activity['participants'], delta='')
 with col2:
-  kilogram = st.number_input("Kilograms:", key = "kg", on_change = kg_to_lbs)
-
-st.header('Output')
-st.write("st.session_state object:", st.session_state)
+    st.metric(label='Type of Activity', value=activity['type'].capitalize(), delta='')
+with col3:
+    st.metric(label='Price', value=activity['price'], delta='')
