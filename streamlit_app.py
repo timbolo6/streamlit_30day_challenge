@@ -53,7 +53,7 @@ new_line = "\n"
 nums = [
     "Bruv, this new trainers got me walking like I'm headlining London Fashion Week - feeling like a snack and a half",
     "Fam, that sandwich was so dry, even the desert would be like 'nah, you're good, mate'",
-    "The Party was alright, the DJ need to be called lowrider"
+    "I love my gf"
 ]
 
 sample = f"{new_line.join(map(str, nums))}"
